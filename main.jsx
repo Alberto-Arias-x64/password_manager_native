@@ -1,5 +1,6 @@
 import { View, Text, ScrollView } from "react-native"
 import styles from "./styles"
+import Outline from './assets/icons/outline'
 
 const sites = [
     {
@@ -49,7 +50,10 @@ const Main_View = () => {
     }
     return (
         <View>
-            <Text style={styles.title}>Password Manager</Text>
+            <View>
+                <Outline/>
+                <Text style={styles.title}>Password Manager</Text>
+            </View>
             <ScrollView>
                 <Name_List />
                 <Name_List />
