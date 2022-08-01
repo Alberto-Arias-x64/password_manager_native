@@ -1,6 +1,7 @@
 import { StyleSheet } from "react-native"
 import Constants from 'expo-constants'
 
+
 const alice_blue = '#f0f8ff'
 const principal_color = '#17171d'
 const principal_color_var = '#2e2e3b'
@@ -13,13 +14,16 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    fontFamily: 'Raleway-Thin',
-    color: alice_blue,
-    fontSize: 34,
+    width: 300,
+    height: 40,
+    resizeMode: 'contain'
   },
 
   text: {
     color: alice_blue
+  },
+  svg:{
+    fill: secondary_color,
   }
 })
 

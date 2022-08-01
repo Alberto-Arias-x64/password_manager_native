@@ -1,6 +1,5 @@
-import { View, Text, ScrollView } from "react-native"
-import styles from "./styles"
-import Outline from './assets/icons/outline'
+import { View, Text, Image, ScrollView } from "react-native"
+import styles from './styles'
 
 const sites = [
     {
@@ -41,8 +40,8 @@ const Main_View = () => {
             return (
                 <>
                     <Text style={styles.text} key={Math.random() + Math.random()}>{site.name}</Text>
-                    <Text style={styles.text}>{site.password}</Text>
-                    <Text style={styles.text}>{site.last_updated}</Text>
+                    <Text style={styles.text} >{site.password}</Text>
+                    <Text style={styles.text} >{site.last_updated}</Text>
                 </>
             )
         }
@@ -51,12 +50,11 @@ const Main_View = () => {
     return (
         <View>
             <View>
-                <Outline/>
-                <Text style={styles.title}>Password Manager</Text>
+                <Image 
+                source={require('./assets/logo.png')}
+                style={styles.title} />
             </View>
             <ScrollView>
-                <Name_List />
-                <Name_List />
                 <Name_List />
             </ScrollView>
         </View>
