@@ -38,11 +38,11 @@ const Main_View = () => {
     const Name_List = () => {
         return sites.map(site => {
             return (
-                <>
-                    <Text style={styles.text} key={Math.random() + Math.random()}>{site.name}</Text>
+                <View key={Math.random()}>
+                    <Text style={[styles.bold, styles.text]} >{site.name}</Text>
                     <Text style={styles.text} >{site.password}</Text>
                     <Text style={styles.text} >{site.last_updated}</Text>
-                </>
+                </View>
             )
         }
         )

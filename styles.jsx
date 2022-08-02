@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    width: 300,
+    width: 280,
     height: 40,
     resizeMode: 'contain'
   },
@@ -22,8 +22,9 @@ const styles = StyleSheet.create({
   text: {
     color: alice_blue
   },
-  svg:{
-    fill: secondary_color,
+  bold: {
+    fontSize: 20,
+    fontWeight: '700'
   }
 })
 
