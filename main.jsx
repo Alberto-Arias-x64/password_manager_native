@@ -33,13 +33,17 @@ const sites = [
         img: ""
     },
 ]
+const Decorator = () => <View style={styles.decorator} />
 
 const Main_View = () => {
     const Name_List = () => {
         return sites.map(site => {
             return (
                 <View key={Math.random()}>
-                    <Text style={[styles.bold, styles.text]} >{site.name}</Text>
+                    <View style={styles.row}>
+                        <Decorator/>
+                        <Text style={[styles.bold, styles.text]} >{site.name}</Text>
+                    </View>
                     <Text style={styles.text} >{site.password}</Text>
                     <Text style={styles.text} >{site.last_updated}</Text>
                 </View>
@@ -50,9 +54,9 @@ const Main_View = () => {
     return (
         <View>
             <View>
-                <Image 
-                source={require('./assets/logo.png')}
-                style={styles.title} />
+                <Image
+                    source={require('./assets/logo.png')}
+                    style={styles.title} />
             </View>
             <ScrollView>
                 <Name_List />
