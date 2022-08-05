@@ -1,6 +1,20 @@
 import { useState } from 'react'
-import { View, Text, TextInput, Pressable  } from 'react-native'
+import SecureStore from 'expo-secure-store';
+import { View, Text, TextInput, Pressable } from 'react-native'
 import styles from '../styles'
+
+async function save(key, value) {
+    await SecureStore.setItemAsync(key, value);
+}
+
+async function getValueFor(key) {
+    let result = await SecureStore.getItemAsync(key);
+    if (result) {
+        alert("🔐 Here's your value 🔐 \n" + result);
+    } else {
+        alert('No values stored under that key.');
+    }
+}
 
 const Add_Site = () => {
     const [site, set_site] = useState()
