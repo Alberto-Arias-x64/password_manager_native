@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { View, Text, TextInput, Pressable, Alert, Image } from 'react-native'
 import * as SecureStore from 'expo-secure-store'
 
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { add } from '../store'
 
 import styles from '../styles'
@@ -14,22 +14,40 @@ const Add_Site = () => {
     const [password, set_password] = useState()
     const [show, set_show] = useState(true)
 
-    const Data = useSelector(state => state.Data_Base)
     const dispatch = useDispatch()
 
-    const Save = async () => {
+    const Save = () => {
+        const Get_Data = async (key) => {
+            let Data = await SecureStore.getItemAsync(key)
+            return Data
+        }
         const key = 'Data_Base'
         const value =
-            {
-                site,
-                user,
-                password
-            }
-        const value_string = window.JSON.stringify(value)
-        await SecureStore.setItemAsync(key, value_string)
-        dispatch(add(value))
-        Alert.alert('Great', 'Your data is safe🔐')
-        Discard()
+        {
+            site,
+            user,
+            password
+        }
+        Get_Data('Data_Base')
+            .then(async Data => {
+                if (Data) {
+                    const Parse_Data = window.JSON.parse(Data)
+                    Parse_Data.push(value)
+                    const value_string = window.JSON.stringify(Parse_Data)
+                    await SecureStore.setItemAsync(key, value_string)
+                    dispatch(add(value))
+                    Alert.alert('Great', 'Your data is safe🔐')
+                    Discard()
+                }
+                else {
+                    const value_string = window.JSON.stringify([value])
+                    await SecureStore.setItemAsync(key, value_string)
+                    dispatch(add(value))
+                    Alert.alert('Great', 'Your data is safe🔐')
+                    Discard()
+                }
+
+            })
     }
 
     const Discard = () => {

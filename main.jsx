@@ -34,14 +34,20 @@ const Main_View = () => {
     }
     useEffect(() => {
         Get_Data('Data_Base')
-        .then(Data => {
-            const Parse_Data = window.JSON.parse(Data)
-            Set_App_Data([Parse_Data])
-        })
-        .catch(() => {
-            console.log('nel pastel')
-        })
+            .then(Data => {
+                if (Data) {
+                    const Parse_Data = window.JSON.parse(Data)
+                    Set_App_Data(Parse_Data)
+                }
+            })
+            .catch(() => {
+                console.log('nel pastel')
+            })
     }, [Local_Data])
+
+    useEffect(() => {
+        SecureStore.deleteItemAsync('Data_Base')
+    },[])
 
 
     return (
