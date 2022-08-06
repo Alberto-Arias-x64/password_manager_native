@@ -1,56 +1,49 @@
-import { View, Text, Image, ScrollView } from "react-native"
+import { useState, useEffect } from 'react'
+
+import { View, Text, Image, ScrollView } from 'react-native'
+import * as SecureStore from 'expo-secure-store'
+
+import { useSelector } from 'react-redux'
+
 import styles from './styles'
 
-const sites = [
-    {
-        name: "Facebook",
-        password: "1234",
-        last_updated: "20-jun-2019",
-        img: ""
-    },
-    {
-        name: "Instagram",
-        password: "1234",
-        last_updated: "20-jun-2019",
-        img: ""
-    },
-    {
-        name: "Printeres",
-        password: "1234",
-        last_updated: "20-jun-2019",
-        img: ""
-    },
-    {
-        name: "Linkedin",
-        password: "1234",
-        last_updated: "20-jun-2019",
-        img: ""
-    },
-    {
-        name: "Gmail",
-        password: "1234",
-        last_updated: "20-jun-2019",
-        img: ""
-    },
-]
 const Decorator = () => <View style={styles.decorator} />
 
 const Main_View = () => {
-    const Name_List = () => {
-        return sites.map(site => {
+    const [App_Data, Set_App_Data] = useState([])
+    const Local_Data = useSelector(state => state.Data_Base)
+
+    const Get_Data = async (key) => {
+        let Data = await SecureStore.getItemAsync(key)
+        return Data
+    }
+
+    const Sites_List = ({ sites }) => {
+        return sites.map(({ site, user, password }) => {
             return (
                 <View key={Math.random()}>
                     <View style={styles.row}>
-                        <Decorator/>
-                        <Text style={[styles.bold, styles.text]} >{site.name}</Text>
+                        <Decorator />
+                        <Text style={[styles.bold, styles.text]} >{site}</Text>
                     </View>
-                    <Text style={styles.text} >{site.password}</Text>
-                    <Text style={styles.text} >{site.last_updated}</Text>
+                    <Text style={styles.text} >{user}</Text>
+                    <Text style={styles.text} >{password}</Text>
                 </View>
             )
-        }
-        )
+        })
     }
+    useEffect(() => {
+        Get_Data('Data_Base')
+        .then(Data => {
+            const Parse_Data = window.JSON.parse(Data)
+            Set_App_Data([Parse_Data])
+        })
+        .catch(() => {
+            console.log('nel pastel')
+        })
+    }, [Local_Data])
+
+
     return (
         <View>
             <View>
@@ -59,7 +52,7 @@ const Main_View = () => {
                     style={styles.title} />
             </View>
             <ScrollView>
-                <Name_List />
+                <Sites_List sites={App_Data} />
             </ScrollView>
         </View>
     )
