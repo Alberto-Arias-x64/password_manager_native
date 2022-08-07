@@ -6,13 +6,12 @@ const alice_blue = '#f0f8ff'
 const principal_color = '#17171d'
 const principal_color_var = '#2e2e3b'
 const secondary_color = '#fc0'
-const red = '#b91919'
 
 const styles = StyleSheet.create({
   //Mockup
   container: {
     backgroundColor: principal_color,
-    marginTop: Constants.statusBarHeight
+    paddingTop: Constants.statusBarHeight
   },
 
   //Styled Text
@@ -24,16 +23,20 @@ const styles = StyleSheet.create({
   text: {
     color: alice_blue
   },
-  text_button:{
+  text_button: {
     color: secondary_color
   },
   text_centred: {
-    textAlign:'center'
+    textAlign: 'center'
   },
   bold: {
     fontSize: 20,
     fontWeight: '700',
     textTransform: 'capitalize'
+  },
+  giant: {
+    fontSize: 50,
+    fontWeight: '700',
   },
 
   //Alignment
@@ -43,6 +46,15 @@ const styles = StyleSheet.create({
   },
   centred: {
     justifyContent: 'center'
+  },
+  size_auto: {
+    flex: 1
+  },
+  standard_padding:{
+    padding: 5
+  },
+  standard_margin:{
+    margin: 4
   },
 
   //Buttons
@@ -69,20 +81,45 @@ const styles = StyleSheet.create({
   input: {
     color: alice_blue,
     backgroundColor: principal_color_var,
-    padding: 0
+    paddingHorizontal: 10,
+    borderRadius: 5
   },
   icon: {
+    height: 18,
+    width: 18,
+    marginRight: 5,
+  },
+  icon_input: {
     height: 28,
     width: 28,
     backgroundColor: principal_color_var,
   },
-  decorator: {
+  dot_decorator: {
     width: 8,
     height: 8,
     borderRadius: 4,
     marginHorizontal: 4,
     backgroundColor: alice_blue,
   },
+  pill_decorator: {
+    backgroundColor: principal_color_var,
+    borderRadius: 5,
+    marginHorizontal: 2,
+    marginVertical: 2,
+    paddingHorizontal: 8,
+    paddingVertical: 1,
+  },
+  opacity_half: {
+    opacity: 0.5
+  },
+  card_decorator: {
+    height: 80,
+    width: 80,
+    backgroundColor: secondary_color,
+    borderRadius: 5, 
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
 })
 
 export default styles

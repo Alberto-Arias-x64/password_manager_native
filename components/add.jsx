@@ -26,7 +26,8 @@ const Add_Site = () => {
         {
             site,
             user,
-            password
+            password,
+            date: new Date()
         }
         Get_Data('Data_Base')
             .then(async Data => {
@@ -35,14 +36,14 @@ const Add_Site = () => {
                     Parse_Data.push(value)
                     const value_string = window.JSON.stringify(Parse_Data)
                     await SecureStore.setItemAsync(key, value_string)
-                    dispatch(add(value))
+                    dispatch(add({ ...value, date: '1' }))
                     Alert.alert('Great', 'Your data is safe🔐')
                     Discard()
                 }
                 else {
                     const value_string = window.JSON.stringify([value])
                     await SecureStore.setItemAsync(key, value_string)
-                    dispatch(add(value))
+                    dispatch(add({ ...value, date: '1' }))
                     Alert.alert('Great', 'Your data is safe🔐')
                     Discard()
                 }
@@ -60,8 +61,20 @@ const Add_Site = () => {
         set_show(!show)
     }
 
+    const Generate_Password = () => {
+        let length = 10,
+            charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+~\\`|}{[]:;?><,./-=",
+            retVal = ""
+
+        for (let i = 0, n = charset.length; i < length; ++i) {
+            retVal += charset.charAt(Math.floor(Math.random() * n))
+        }
+
+        set_password(retVal)
+    }
+
     return (
-        <View>
+        <View style={[styles.standard_margin]}>
             <Text style={[styles.text, styles.bold]}>Site:</Text>
             <TextInput
                 onChangeText={set_site}
@@ -95,8 +108,11 @@ const Add_Site = () => {
                     disableFullscreenUI={true}
                     secureTextEntry={show}
                 />
+                <Pressable onPress={Generate_Password}>
+                    <Image source={require('../assets/icons/color-wand-outline.png')} style={[styles.icon_input]} />
+                </Pressable>
                 <Pressable onPressIn={Change} onPressOut={Change}>
-                    <Image source={require('../assets/icons/eye_outline.png')} style={styles.icon} />
+                    <Image source={require('../assets/icons/eye-outline.png')} style={styles.icon_input} />
                 </Pressable>
             </View>
             <View style={[styles.row, styles.centred]}>

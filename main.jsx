@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react'
 
-import { View, Text, Image, ScrollView } from 'react-native'
+import { View, Text, Image, ScrollView, Pressable } from 'react-native'
 import * as SecureStore from 'expo-secure-store'
 
 import { useSelector } from 'react-redux'
 
 import styles from './styles'
 
-const Decorator = () => <View style={styles.decorator} />
+const Dot_Decorator = () => <View style={styles.dot_decorator} />
 
 const Main_View = () => {
     const [App_Data, Set_App_Data] = useState([])
@@ -18,16 +18,38 @@ const Main_View = () => {
         return Data
     }
 
+    const First_Letter = text => text ? text[0] : '?'
+
     const Sites_List = ({ sites }) => {
-        return sites.map(({ site, user, password }) => {
+        return sites.map(({ site, user, password, date }) => {
             return (
-                <View key={Math.random()}>
-                    <View style={styles.row}>
-                        <Decorator />
-                        <Text style={[styles.bold, styles.text]} >{site}</Text>
+                <View key={Math.random()} style={styles.row} >
+                    <View style={[styles.card_decorator, styles.standard_margin]}>
+                        <Text style={styles.giant}>{First_Letter(site)}</Text>
                     </View>
-                    <Text style={styles.text} >{user}</Text>
-                    <Text style={styles.text} >{password}</Text>
+                    <View style={styles.size_auto}>
+                        <View style={[styles.row, styles.standard_margin]}>
+                            <Image source={require('./assets/icons/globe-outline.png')} style={styles.icon} />
+                            <Text style={[styles.bold, styles.text, styles.size_auto]} >{site}</Text>
+                            <Pressable>
+                                <Image source={require('./assets/icons/ellipsis-vertical-outline.png')} style={[styles.icon, styles.opacity_half]} />
+                            </Pressable>
+                        </View>
+                        <View style={[styles.row, styles.size_auto, styles.pill_decorator]}>
+                            <Image source={require('./assets/icons/person-circle-outline.png')} style={styles.icon} />
+                            <Text style={styles.text} >{user}</Text>
+                        </View>
+                        <View style={styles.row}>
+                            <View style={[styles.row, styles.pill_decorator,{flex:2.5}]}>
+                                <Image source={require('./assets/icons/key-outline.png')} style={styles.icon} />
+                                <Text style={styles.text} >{password}</Text>
+                            </View>
+                            <View style={[styles.row, styles.size_auto, styles.pill_decorator]}>
+                                <Image source={require('./assets/icons/hourglass-outline.png')} style={styles.icon} />
+                                <Text style={styles.text} >{date}</Text>
+                            </View>
+                        </View>
+                    </View>
                 </View>
             )
         })
@@ -47,15 +69,21 @@ const Main_View = () => {
 
     useEffect(() => {
         SecureStore.deleteItemAsync('Data_Base')
-    },[])
+    }, [])
 
 
     return (
         <View>
-            <View>
+            <View style={styles.row}>
                 <Image
                     source={require('./assets/logo.png')}
-                    style={styles.title} />
+                    style={[styles.title]} />
+                <Pressable>
+                    <Image
+                        source={require('./assets/icons/add-outline.png')}
+                        style={[styles.icon]}
+                    />
+                </Pressable>
             </View>
             <ScrollView>
                 <Sites_List sites={App_Data} />
