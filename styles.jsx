@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native"
+import { StyleSheet, Dimensions } from "react-native"
 import Constants from 'expo-constants'
 
 
@@ -7,11 +7,19 @@ const principal_color = '#17171d'
 const principal_color_var = '#2e2e3b'
 const secondary_color = '#fc0'
 
+let device_height = Dimensions.get('window').height;
+let device_width = Dimensions.get('window').width;
+
 const styles = StyleSheet.create({
   //Mockup
-  container: {
+  add: {
+    height: 200,
     backgroundColor: principal_color,
-    paddingTop: Constants.statusBarHeight
+  },
+  container: {
+    height: device_height,
+    backgroundColor: principal_color,
+    paddingTop: Constants.statusBarHeight,
   },
 
   //Styled Text
@@ -50,10 +58,10 @@ const styles = StyleSheet.create({
   size_auto: {
     flex: 1
   },
-  standard_padding:{
+  standard_padding: {
     padding: 5
   },
-  standard_margin:{
+  standard_margin: {
     margin: 4
   },
 
@@ -82,6 +90,7 @@ const styles = StyleSheet.create({
     color: alice_blue,
     backgroundColor: principal_color_var,
     paddingHorizontal: 10,
+    marginVertical: 2,
     borderRadius: 5
   },
   icon: {
@@ -116,7 +125,7 @@ const styles = StyleSheet.create({
     height: 80,
     width: 80,
     backgroundColor: secondary_color,
-    borderRadius: 5, 
+    borderRadius: 5,
     justifyContent: 'center',
     alignItems: 'center'
   }

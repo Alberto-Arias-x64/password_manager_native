@@ -1,10 +1,10 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 
-import { View, Text, TextInput, Pressable, Alert, Image } from 'react-native'
+import { View, Text, TextInput, Pressable, Alert, Image, Animated } from 'react-native'
 import * as SecureStore from 'expo-secure-store'
 
-import { useDispatch } from 'react-redux'
-import { add } from '../store'
+import { useDispatch, useSelector } from 'react-redux'
+import { add, change } from '../store'
 
 import styles from '../styles'
 
@@ -12,9 +12,26 @@ const Add_Site = () => {
     const [site, set_site] = useState()
     const [user, set_user] = useState()
     const [password, set_password] = useState()
-    const [show, set_show] = useState(true)
-
+    const [show_password, set_show_password] = useState(true)
+    const Move_Animation = useRef(new Animated.Value(0)).current
+    const Visibility = useSelector(state => state.Add_View)
     const dispatch = useDispatch()
+
+    const Add_show = () => {
+        Animated.timing(Move_Animation, {
+            toValue: 180,
+            duration: 500,
+            useNativeDriver: false
+        }).start()
+    }
+
+    const Add_Hide = () => {
+        Animated.timing(Move_Animation, {
+            toValue: 0,
+            duration: 500,
+            useNativeDriver: false
+        }).start()
+    }
 
     const Save = () => {
         const Get_Data = async (key) => {
@@ -55,10 +72,12 @@ const Add_Site = () => {
         set_password('')
         set_site('')
         set_user('')
+        Add_Hide()
+        dispatch(change())
     }
 
     const Change = () => {
-        set_show(!show)
+        set_show_password(!show_password)
     }
 
     const Generate_Password = () => {
@@ -73,40 +92,43 @@ const Add_Site = () => {
         set_password(retVal)
     }
 
+    useEffect(() => {
+        Visibility ? Add_show() : Add_Hide()
+    }, [Visibility])
+    
+
     return (
-        <View style={[styles.standard_margin]}>
-            <Text style={[styles.text, styles.bold]}>Site:</Text>
+        <Animated.View style={[{ bottom: Move_Animation}, styles.standard_margin, styles.add]}>
+            <Text style={[styles.text, styles.bold]}>New Password:</Text>
             <TextInput
                 onChangeText={set_site}
                 value={site}
-                placeholder='Password Manager'
+                placeholder='Site Name'
                 placeholderTextColor='#f0f8ff50'
                 style={styles.input}
                 disableFullscreenUI={true}
             />
-            <Text style={[styles.text, styles.bold]}>User:</Text>
             <TextInput
                 onChangeText={set_user}
                 value={user}
-                placeholder='password@manager.com'
+                placeholder='User'
                 placeholderTextColor='#f0f8ff50'
                 style={styles.input}
                 autoCapitalize='none'
                 autoComplete='off'
                 disableFullscreenUI={true}
             />
-            <Text style={[styles.text, styles.bold]}>Password:</Text>
             <View style={styles.row}>
                 <TextInput
                     onChangeText={set_password}
                     value={password}
-                    placeholder='1235'
+                    placeholder='Password'
                     placeholderTextColor='#f0f8ff50'
                     style={[styles.input, { flex: 1 }]}
                     autoCapitalize='none'
                     autoComplete='off'
                     disableFullscreenUI={true}
-                    secureTextEntry={show}
+                    secureTextEntry={show_password}
                 />
                 <Pressable onPress={Generate_Password}>
                     <Image source={require('../assets/icons/color-wand-outline.png')} style={[styles.icon_input]} />
@@ -123,7 +145,7 @@ const Add_Site = () => {
                     <Text style={styles.text_centred} >Save</Text>
                 </Pressable>
             </View>
-        </View>
+        </Animated.View>
     )
 }
 export default Add_Site
