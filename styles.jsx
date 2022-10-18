@@ -98,6 +98,12 @@ const styles = StyleSheet.create({
     width: 18,
     marginRight: 5,
   },
+  icon_plus: {
+    height: 40,
+    width: 40,
+    marginRight: 5,
+    top: 5,
+  },
   icon_input: {
     height: 28,
     width: 28,

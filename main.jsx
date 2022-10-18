@@ -106,10 +106,11 @@ const Main_View = () => {
                 <Image
                     source={require('./assets/logo.png')}
                     style={[styles.title]} />
+                <View style={{flex:1}}></View>
                 <Pressable onPress={Show_Add_View}>
                     <Image
                         source={require('./assets/icons/add-outline.png')}
-                        style={[styles.icon]}
+                        style={[styles.icon_plus]}
                     />
                 </Pressable>
             </View>
